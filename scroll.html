@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Locomotive Scroll Local Demo</title>
+    <link rel="stylesheet" href="locomotive-scroll.min.css">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            background: #eee;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .section:nth-child(even) {
+            background: #ddd;
+        }
+
+        .parallax {
+            transform: translateY(0);
+            will-change: transform;
+        }
+    </style>
+</head>
+<body data-scroll-container>
+
+<div data-scroll-section>
+    <div class="section" data-scroll data-scroll-speed="2">Section 1</div>
+    <div class="section" data-scroll data-scroll-speed="-2">Section 2</div>
+    <div class="section" data-scroll data-scroll-speed="1">Section 3</div>
+    <div class="section" data-scroll data-scroll-speed="-1">Section 4</div>
+</div>
+
+<script src="locomotive-scroll.min.js"></script>
+<script>
+    const scroll = new LocomotiveScroll({
+        el: document.querySelector('[data-scroll-container]'),
+        smooth: true
+    });
+</script>
+</body>
+</html>

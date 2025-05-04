@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flip Up Animation</title>
+    <style>
+        .flip-container {
+            perspective: 1000px; /* Нужно для 3D эффекта */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f0f0f0;
+        }
+
+        .card {
+            width: 200px;
+            height: 300px;
+            background-color: #3498db;
+            color: white;
+            font-size: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform-origin: bottom;
+            transform: rotateX(-90deg); /* "Лежит лицом вниз" */
+            animation: riseUp 1s forwards;
+        }
+
+        @keyframes riseUp {
+            to {
+                transform: rotateX(0deg); /* Поднялся */
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="flip-container">
+    <div class="card">Hello</div>
+</div>
+</body>
+</html>

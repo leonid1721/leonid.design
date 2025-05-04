@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Живая картинка</title>
+    <title></title>
     <style>
         body {
             background: #0079B3;
@@ -38,7 +38,7 @@
             top: 0;
             left: 0;
             z-index: 1;
-            background: black;
+            background:  #0079B3;
         }
 
         .container img {
@@ -68,7 +68,7 @@
 
         .magic-button {
             position: absolute;
-            top:30px;
+            top:20px;
             left:50px;
             z-index:140;
             display: flex;
@@ -77,16 +77,17 @@
             flex-direction: column;
             width: 360px;
 
-            backdrop-filter: blur(3px);
+            backdrop-filter: blur(0px);
             /* add webkit */
-            border-radius: 30px;
+            border-radius: 40px;
             padding:30px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            font-family: 'Navigo', sans-serif;
+            font-family: 'Navigo Regular', sans-serif;
+            letter-spacing: -1px;
             font-weight: 300;
             font-size: 42px;
-            line-height: 36px;
+            line-height: auto;
             text-align: center;
             transition: all 0.2s ease-in-out;
             overflow: hidden;
@@ -99,7 +100,7 @@
             transform: scale(0.98);
             backdrop-filter: blur(3px);
             border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: inset 0 4px 18px 0 rgba(255, 255, 255, 0.8), 0 0px 10px 0 rgba(255, 255, 255, 0.4);
+            box-shadow: inset 0 4px 18px 0 rgba(255, 255, 255, 0.6), 0 0px 10px 0 rgba(255, 255, 255, 0.4);
 
         }
 
@@ -109,7 +110,7 @@
             left: 0;
             width: 350px;
             height: 350px;
-            background: radial-gradient(circle, rgba(0, 255, 255, 0.35) 0%, transparent 40%);
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.45) 0%, transparent 40%);
             transform: translate(-50%, -50%);
             pointer-events: none;
             border-radius: 100%;
@@ -122,19 +123,38 @@
             opacity: 1;
         }
 
+        .gradient-text {
+            background: linear-gradient(180deg, #ffffff, #c4f3ff);
+            background-size: 100% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientAnimation 3s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 0%;
+            }
+            100% {
+                background-position: 100% 0%;
+            }
+        }
+
     </style>
 </head>
 <body>
 
 <div class="container" id="live-photo">
     <div class="magic-button">
-        Обращайтесь!<span class="hover-light"></span>
+        <div class="gradient-text">Обращайтесь!</div><span class="hover-light"></span>
+
     </div>
     <video id="live-video" src="res/character_video1.mp4" muted playsinline preload="auto"></video>
     <img src="res/character.png" alt="Человек">
 </div>
 
 <script>
+    // добавить, чтобы играло в inview
     const container = document.getElementById('live-photo');
     const img = container.querySelector('img');
     const video = document.getElementById('live-video');
