@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Живая картинка</title>
+    <style>
+        body {
+            background: #0079B3;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            min-height: 100vh;
+        }
+
+        .container {
+            position: relative;
+            width: 480px;
+            height: 480px;
+            overflow: visible;
+            cursor: pointer;
+            background: #0079B3;
+        }
+
+        .container video {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background: black;
+        }
+
+        .container img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            background: transparent;
+            transition: opacity 0.15s ease-in-out;
+        }
+
+        .container img.transparent {
+            opacity: 0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 90vw;
+                height: 90vw;
+            }
+        }
+
+        .magic-button {
+            position: absolute;
+            top:30px;
+            left:50px;
+            z-index:140;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            width: 360px;
+
+            backdrop-filter: blur(0px);
+            /* add webkit */
+            border-radius: 30px;
+            padding:30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-family: 'Navigo', sans-serif;
+            font-weight: 300;
+            font-size: 42px;
+            line-height: 36px;
+            text-align: center;
+            transition: all 0.2s ease-in-out;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: inset 0 2px 18px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .magic-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(0.98);
+            backdrop-filter: blur(3px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: inset 0 4px 18px 0 rgba(255, 255, 255, 0.8), 0 0px 10px 0 rgba(255, 255, 255, 0.4);
+
+        }
+
+        .magic-button .hover-light {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.35) 0%, transparent 40%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            border-radius: 100%;
+            opacity: 0;
+            transition: opacity 1s ease;
+            z-index: 0;
+        }
+
+        .magic-button:hover .hover-light {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container" id="live-photo">
+    <div class="magic-button">
+        Обращайтесь!<span class="hover-light"></span>
+    </div>
+    <video id="live-video" src="res/character_video1.mp4" muted playsinline preload="auto"></video>
+    <img src="res/character.png" alt="Человек">
+</div>
+
+<script>
+    const container = document.getElementById('live-photo');
+    const img = container.querySelector('img');
+    const video = document.getElementById('live-video');
+
+    let playing = false;
+
+    function waitForVideo(videoElement) {
+        return new Promise(resolve => {
+            if (videoElement.readyState >= 4) {
+                resolve();
+            } else {
+                videoElement.addEventListener('canplaythrough', resolve, { once: true });
+            }
+        });
+    }
+
+    waitForVideo(video).then(() => {
+        container.addEventListener('mouseenter', playVideo);
+        container.addEventListener('touchstart', playVideo);
+    });
+
+    function playVideo() {
+        if (playing) return;
+        playing = true;
+
+        img.classList.add('transparent');
+
+        setTimeout(() => {
+            video.currentTime = 0;
+            video.play();
+        }, 150); // задержка 100 мс
+
+        video.onended = () => {
+            img.classList.remove('transparent');
+            playing = false;
+        };
+    }
+</script>
+
+<script>
+    const button = document.querySelector('.magic-button');
+    const light = button.querySelector('.hover-light');
+
+    button.addEventListener('mouseenter', () => {
+        light.style.opacity = 1;
+        button.addEventListener('mousemove', moveLight);
+    });
+
+    button.addEventListener('mouseleave', () => {
+        light.style.opacity = 0;
+        button.removeEventListener('mousemove', moveLight);
+    });
+
+    function moveLight(e) {
+        const rect = button.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        light.style.left = `${x}px`;
+        light.style.top = `${y}px`;
+    }
+</script>
+
+</body>
+</html>
